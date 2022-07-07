@@ -1,8 +1,7 @@
-#include <iostream>
+#include "Game.h"
 
-
-int main(int argc, char** argv)
+int main()
 {
-	std::cout << "Hello world!";
-	return 0;
+    Game game;
+    game.run();
 }
