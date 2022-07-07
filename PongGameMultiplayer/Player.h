@@ -10,19 +10,18 @@ enum PlayerType {
 class Player : public sf::RectangleShape
 {
 public:
-	Player(sf::Vector2u windowSize, PlayerType playerType);
+	Player(sf::Vector2u window_size, PlayerType in_player_type);
 
 	// Public Functions
-	void MoveUp(float deltatime);
-	void MoveDown(float deltatime);
+	void moveUp(float dt);
+	void moveDown(float dt);
 
 private:
-	// Private Functions
+	// Private functions
 	
 
-private:
-	//Variables
+	// Member variables
 	PlayerType player_type;
-
+	const float player_velo;
 };
 
