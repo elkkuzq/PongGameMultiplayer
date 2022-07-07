@@ -1,7 +1,9 @@
 #include "Game.h"
 
 Game::Game()
-	: window(sf::VideoMode(800, 600), GAME_NAME, sf::Style::Fullscreen)
+	: window(sf::VideoMode(800, 600), GAME_NAME, sf::Style::Fullscreen),
+	  playerLeft(window.getSize(), PlayerType::Left),
+	  playerRight(window.getSize(), PlayerType::Right)
 {
 }
 

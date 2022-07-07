@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "PongBall.h"
+#include "Player.h"
 
 constexpr const char* GAME_NAME = "PongGameMultiplayer";
 
@@ -17,5 +18,7 @@ private:
 
 	// Member variables
 	sf::RenderWindow window;
+	Player playerLeft;
+	Player playerRight;
 };
 
