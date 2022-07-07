@@ -32,6 +32,8 @@ private:
 	float dt = 0.0f;
 	GameState game_state;
 	sf::RenderWindow window;
+	sf::Font font;
+	sf::Text score_text;
 	PongBall ball;
 	Player left_player;
 	Player right_player;

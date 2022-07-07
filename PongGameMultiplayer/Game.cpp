@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "utils.h"
+#include <iostream>
 
 Game::Game()
 	: window(sf::VideoMode(1200, 800), GAME_NAME, sf::Style::Fullscreen),
@@ -8,6 +9,11 @@ Game::Game()
 	left_player(window.getSize(), PlayerType::Left),
 	right_player(window.getSize(), PlayerType::Right)
 {
+	if (!font.loadFromFile("bit9x9.ttf"))
+	{
+		std::cerr << "Failed to load font\n";
+		exit(EXIT_FAILURE);
+	}
 	srand(static_cast<unsigned int>(time(NULL)));
 }
 
@@ -50,11 +56,22 @@ void Game::handleInput()
 	if (event.type == sf::Event::Closed)
 	{
 		game_state = GameState::Quit;
+		return;
 	}
 	if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Key::Escape)
 	{
 		game_state = GameState::Quit;
+		return;
 	}
+
+	// Check for restart
+	if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Key::R)
+	{
+		game_state = GameState::Start;
+		return;
+	}
+
+
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
 	{
@@ -67,11 +84,11 @@ void Game::handleInput()
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up))
 	{
-		left_player.moveUp(dt);
+		right_player.moveUp(dt);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down))
 	{
-		left_player.moveDown(dt);
+		right_player.moveDown(dt);
 	}
 }
 
@@ -96,12 +113,24 @@ void Game::update()
 		new_direction.y = -std::abs(new_direction.y); // Make sure ball is going up
 	}
 
-	// FOR TESTING ONLY
-	if (ball_rect.left <= 0)
+	// Check if ball is out of bounds?
+	if (ball_rect.left <= 0) 
+	{
+		left_player.addScore();
+	}
+	if (ball_rect.left + ball_rect.width >= window.getSize().x)
+	{
+		right_player.addScore();
+	}
+
+	// Hits left player
+	if (left_player.getGlobalBounds().intersects(ball_rect))
 	{
 		new_direction.x = std::abs(new_direction.x);
 	}
-	if (ball_rect.left + ball_rect.width >= window.getSize().x)
+
+	// Hits right player
+	if (right_player.getGlobalBounds().intersects(ball_rect))
 	{
 		new_direction.x = -std::abs(new_direction.x);
 	}
