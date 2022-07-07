@@ -33,21 +33,6 @@ void Game::setup()
 
 	// Randomize initial direction
 	int x = 100;
-	float angle = -0.5f * sf::PI * ((float)(rand() % x) / x) + 0.5f * sf::PI/2;
-	sf::Vector2f velo(cos(angle), sin(angle));
-	ball.setDirection(velo);
-
-	// Start game
-	game_state = GameState::Run;
-}
-
-void Game::setup()
-{
-	// Set ball to center
-	ball.setPosition(sf::Vector2f(window.getSize().x / 2.0f, window.getSize().y / 2.0f));
-
-	// Randomize initial direction
-	int x = 100;
 	float angle = -0.5f * sf::PI * ((float)(rand() % x) / x) + 0.5f * sf::PI / 2;
 	sf::Vector2f velo(cos(angle), sin(angle));
 	ball.setDirection(velo);
@@ -110,19 +95,6 @@ void Game::update()
 	{
 		new_direction.y = -std::abs(new_direction.y); // Make sure ball is going up
 	}
-
-	// FOR TESTING ONLY
-	if (ball_rect.left <= 0)
-	{
-		new_direction.x = std::abs(new_direction.x);
-	}
-	if (ball_rect.left + ball_rect.width >= window.getSize().x)
-	{
-		new_direction.x = -std::abs(new_direction.x);
-	}
-
-	ball.setDirection(new_direction);
-}
 
 	// FOR TESTING ONLY
 	if (ball_rect.left <= 0)

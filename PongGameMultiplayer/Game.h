@@ -36,11 +36,3 @@ private:
 	Player left_player;
 	Player right_player;
 };
-
-
-
-
-
-
-	PongBall ball;
-};
