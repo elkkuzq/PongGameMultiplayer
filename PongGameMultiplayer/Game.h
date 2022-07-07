@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "PongBall.h"
 #include "FrameTimer.h"
+#include "Player.h"
 
 constexpr const char* GAME_NAME = "PongGameMultiplayer";
 
@@ -28,8 +29,16 @@ private:
 
 	// Member variables
 	FrameTimer frame_timer;
+	float dt = 0.0f;
 	GameState game_state;
 	sf::RenderWindow window;
 	PongBall ball;
+	Player left_player;
+	Player right_player;
 };
+
+
+
+
+
 

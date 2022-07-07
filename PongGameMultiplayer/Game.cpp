@@ -4,7 +4,9 @@
 Game::Game()
 	: window(sf::VideoMode(1200, 800), GAME_NAME, sf::Style::Fullscreen),
 	ball(sf::Vector2f(window.getSize().x / 2.0f, window.getSize().y / 2.0f), sf::Vector2f(0, 0)),
-	game_state(GameState::Start)
+	game_state(GameState::Start),
+	left_player(window.getSize(), PlayerType::Left),
+	right_player(window.getSize(), PlayerType::Right)
 {
 	srand(static_cast<unsigned int>(time(NULL)));
 }
@@ -56,13 +58,26 @@ void Game::handleInput()
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
 	{
-		game_state = GameState::Start;
+		left_player.moveUp(dt);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
+	{
+		left_player.moveDown(dt);
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up))
+	{
+		left_player.moveUp(dt);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down))
+	{
+		left_player.moveDown(dt);
 	}
 }
 
 void Game::update()
 {
-	const float dt = frame_timer.mark();
+	dt = frame_timer.mark();
 	ball.updatePos(dt);
 
 	// Handle collisions
