@@ -9,11 +9,12 @@ Game::Game()
 	left_player(window.getSize(), PlayerType::Left),
 	right_player(window.getSize(), PlayerType::Right)
 {
-	if (!font.loadFromFile("bit9x9.ttf"))
+	/*if (!font.loadFromFile("font.ttf"))
 	{
 		std::cerr << "Failed to load font\n";
 		exit(EXIT_FAILURE);
 	}
+	*/
 	srand(static_cast<unsigned int>(time(NULL)));
 }
 
@@ -65,11 +66,12 @@ void Game::handleInput()
 	}
 
 	// Check for restart
-	if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Key::R)
+	if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Key::Enter)
 	{
 		game_state = GameState::Start;
 		return;
 	}
+
 
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
@@ -98,7 +100,6 @@ void Game::update()
 
 	// Handle collisions
 	sf::FloatRect ball_rect = ball.getGlobalBounds();
-
 	sf::Vector2f new_direction = ball.getVelo();
 
 	// Hits ceiling?
@@ -141,6 +142,8 @@ void Game::render()
 {
 	window.clear();
 	window.draw(ball);
+	window.draw(left_player);
+	window.draw(right_player);
 	window.display();
 }
 
