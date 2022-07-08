@@ -72,6 +72,7 @@ void Game::handleInput()
 	}
 
 
+
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
 	{
 		left_player.moveUp(dt);
