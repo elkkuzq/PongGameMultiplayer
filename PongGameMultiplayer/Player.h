@@ -13,6 +13,7 @@ public:
 	Player(sf::Vector2u window_size, PlayerType in_player_type);
 	void moveUp(float dt);
 	void moveDown(float dt);
+	void insideWindow(int window_height);
 	void addScore();
 	int getScore();
 

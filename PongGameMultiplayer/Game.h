@@ -3,6 +3,7 @@
 #include "PongBall.h"
 #include "FrameTimer.h"
 #include "Player.h"
+#include "Menu.h"
 
 constexpr const char* GAME_NAME = "PongGameMultiplayer";
 
@@ -25,8 +26,7 @@ private:
 	void update();
 	void render();
 
-	// Helper functions
-
+private:
 	// Member variables
 	FrameTimer frame_timer;
 	float dt = 0.0f;
@@ -37,4 +37,5 @@ private:
 	PongBall ball;
 	Player left_player;
 	Player right_player;
+	Menu menu;
 };

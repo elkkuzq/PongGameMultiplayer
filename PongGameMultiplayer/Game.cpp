@@ -3,18 +3,13 @@
 #include <iostream>
 
 Game::Game()
-	: window(sf::VideoMode(1200, 800), GAME_NAME, sf::Style::Fullscreen),
+	: window(sf::VideoMode(1920, 1080), GAME_NAME, sf::Style::Fullscreen),
 	ball(sf::Vector2f(window.getSize().x / 2.0f, window.getSize().y / 2.0f), sf::Vector2f(0, 0)),
 	game_state(GameState::Start),
 	left_player(window.getSize(), PlayerType::Left),
-	right_player(window.getSize(), PlayerType::Right)
+	right_player(window.getSize(), PlayerType::Right),
+	menu(window)
 {
-	/*if (!font.loadFromFile("font.ttf"))
-	{
-		std::cerr << "Failed to load font\n";
-		exit(EXIT_FAILURE);
-	}
-	*/
 	srand(static_cast<unsigned int>(time(NULL)));
 }
 
@@ -22,13 +17,24 @@ void Game::run()
 {
 	while (game_state != GameState::Quit)
 	{
-		setup();
+		window.setMouseCursorVisible(true);
+		if (menu.IsLeaveClicked()) game_state = GameState::Quit;
+		handleInput();
+		window.clear();
+		menu.Draw();
+		menu.Update();
+		window.display();
 
-		while (game_state == GameState::Run)
+		if (menu.IsPlayClicked())
 		{
-			handleInput();
-			update();
-			render();
+			menu.SetIsPlayClicked(false);
+			setup();
+			while (game_state == GameState::Run)
+			{
+				handleInput();
+				update();
+				render();
+			}
 		}
 	}
 }
@@ -43,6 +49,13 @@ void Game::setup()
 	float angle = -0.5f * sf::PI * ((float)(rand() % x) / x) + 0.5f * sf::PI / 2;
 	sf::Vector2f velo(cos(angle), sin(angle));
 	ball.setDirection(velo);
+
+	//reset players
+	left_player.setPosition(sf::Vector2f(0, window.getSize().y / 2));
+	right_player.setPosition(sf::Vector2f(window.getSize().x - right_player.getSize().x, window.getSize().y / 2));
+
+	// set Mouse cursor not visible
+	window.setMouseCursorVisible(false);
 
 	// Start game
 	game_state = GameState::Run;
@@ -72,13 +85,11 @@ void Game::handleInput()
 		return;
 	}
 
-
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
 	{
 		left_player.moveUp(dt);
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X))
 	{
 		left_player.moveDown(dt);
 	}
@@ -136,6 +147,12 @@ void Game::update()
 	}
 
 	ball.setDirection(new_direction);
+
+	//Check if player is outside window
+	{
+		right_player.insideWindow(window.getSize().y);
+		left_player.insideWindow(window.getSize().y);
+	}
 }
 
 void Game::render()
@@ -146,5 +163,3 @@ void Game::render()
 	window.draw(right_player);
 	window.display();
 }
-
-

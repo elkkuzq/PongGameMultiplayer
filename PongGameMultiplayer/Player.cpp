@@ -24,6 +24,17 @@ void Player::moveDown(float dt)
 	move(sf::Vector2f(0, player_velo * dt));
 }
 
+void Player::insideWindow(int window_height)
+{
+	// Check if player y axis is les than 0 then set player y to 0
+	if (getPosition().y <= 0) {
+		setPosition( {getPosition().x, 0} );
+	}
+	else if (getPosition().y >= window_height - getSize().y) {
+		setPosition({ getPosition().x, window_height - getSize().y });
+	}
+}
+
 void Player::addScore()
 {
 	++score;
